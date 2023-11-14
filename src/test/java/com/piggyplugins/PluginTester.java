@@ -1,6 +1,5 @@
 package com.piggyplugins;
 
-import AutoLoot.AutoLootPlugin;
 import com.example.EthanApiPlugin.EthanApiPlugin;
 import com.example.PacketUtils.PacketUtilsPlugin;
 import com.piggyplugins.AutoAerial.AutoAerialPlugin;
@@ -14,6 +13,7 @@ import com.polyplugins.Dialogue.DialogueContinuerPlugin;
 import com.polyplugins.KittenFeeder.KittenFeederPlugin;
 import net.runelite.client.RuneLite;
 import net.runelite.client.externalplugins.ExternalPluginManager;
+import com.santaplugins.AutoLoot.AutoLootPlugin;
 
 public class PluginTester{
     public static void main(String[] args) throws Exception {

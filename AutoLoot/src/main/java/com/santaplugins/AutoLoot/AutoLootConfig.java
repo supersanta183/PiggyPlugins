@@ -1,4 +1,4 @@
-package AutoLoot;
+package com.santaplugins.AutoLoot;
 
 import net.runelite.client.config.*;
 

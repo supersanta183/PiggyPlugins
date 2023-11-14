@@ -1,17 +1,13 @@
-package AutoLoot;
+package com.santaplugins.AutoLoot;
 
-import com.example.EthanApiPlugin.Collections.ETileItem;
 import com.example.EthanApiPlugin.Collections.Inventory;
 import com.example.EthanApiPlugin.Collections.TileItems;
-import com.example.EthanApiPlugin.Collections.query.TileItemQuery;
 import com.example.EthanApiPlugin.EthanApiPlugin;
 import com.google.inject.Inject;
-import com.piggyplugins.PiggyUtils.API.PlayerUtil;
 import com.google.inject.Provides;
 import lombok.SneakyThrows;
 import net.runelite.api.*;
 import net.runelite.api.events.GameTick;
-import net.runelite.api.widgets.Widget;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.game.ItemStack;
@@ -21,7 +17,6 @@ import net.runelite.client.events.NpcLootReceived;
 import net.runelite.client.game.ItemManager;
 
 import java.util.*;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @PluginDescriptor(name = "AutoLoot", description = "loots stuff from the ground", enabledByDefault = false, tags = {"supersanta, loot"})
