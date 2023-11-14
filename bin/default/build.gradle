@@ -1,0 +1,181 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+    id 'net.researchgate.release' version '2.8.1'
+}
+
+allprojects {
+    repositories {
+        mavenLocal()
+        maven {
+            url = 'https://repo.runelite.net'
+        }
+        mavenCentral()
+        jcenter()
+    }
+
+    def runeLiteVersion = '1.10.16.1'
+
+    plugins.withType(JavaPlugin) {
+        dependencies {
+            compileOnly 'org.projectlombok:lombok:1.18.20'
+            annotationProcessor 'org.projectlombok:lombok:1.18.20'
+            compileOnly group: 'net.runelite', name: 'client', version: runeLiteVersion
+            testImplementation 'junit:junit:4.12'
+            testImplementation group: 'net.runelite', name: 'client', version: runeLiteVersion
+            testImplementation group: 'net.runelite', name: 'jshell', version: runeLiteVersion
+        }
+    }
+}
+
+dependencies {
+
+    // Add modules here like so, so you can run the ExamplePluginTest
+    compileOnly project(path: ':EthansApi')
+    testImplementation project(path: ':EthansApi')
+    compileOnly project(':PiggyUtils')
+    testImplementation project(':PiggyUtils')
+    compileOnly project(path: ':DialogueContinuer')
+    testImplementation project(path: ':DialogueContinuer')
+    compileOnly project(path: ':KittenFeeder')
+    testImplementation project(path: ':KittenFeeder')
+    compileOnly project(path: ':AutoChompy')
+    testImplementation project(path: ':AutoChompy')
+
+//    compileOnly project(path: ':AutoMLM')
+//    testImplementation project(path: ':AutoMLM')
+
+    compileOnly project(path: ':AutoSmith')
+    testImplementation project(path: ':AutoSmith')
+
+    compileOnly project(path: ':AutoAerial')
+    testImplementation project(path: ':AutoAerial')
+
+    compileOnly project(path: ':AutoCombat')
+    testImplementation project(path: ':AutoCombat')
+
+    compileOnly project(path: ':Firemaking')
+    testImplementation project(path: ':Firemaking')
+
+    compileOnly project(path: ':AutoBoner')
+    testImplementation project(path: ':AutoBoner')
+
+    compileOnly project(path: ':ButterflyCatcher')
+    testImplementation project(path: ':ButterflyCatcher')
+//    Uncomment for fat jar
+    implementation project(path: ':AutoAerial')
+    implementation project(path: ':AutoBoner')
+    implementation project(path: ':AutoChompy')
+    implementation project(path: ':AutoCombat')
+    implementation project(path: ':AutoSmith')
+    implementation project(path: ':ButterflyCatcher')
+    implementation project(path: ':DialogueContinuer')
+    implementation project(path: ':Firemaking')
+    implementation project(path: ':KittenFeeder')
+    implementation project(path: ':AutoJugHumidifier')
+    implementation project(path: ':AutoRifts')
+    implementation project(path: ':AutoTele')
+    implementation project(path: ':CalvarionHelper')
+    implementation project(path: ':CannonReloader')
+    implementation project(path: ':E3T4G')
+    implementation project(path: ':EthansApi')
+    implementation project(path: ':ChinBreakHandler')
+    implementation project(path: ':GauntletFlicker')
+    implementation project(path: ':Harpoon2Ticker')
+    implementation project(path: ':HerbCleaner')
+    implementation project(path: ':ItemCombiner')
+    implementation project(path: ':ItemDropper')
+    implementation project(path: ':JadAutoPrayers')
+    implementation project(path: ':LavaRunecrafter')
+    implementation project(path: ':NightmareHelper')
+    implementation project(path: ':OneTickSwitcher')
+    implementation project(path: ':PiggyUtils')
+    implementation project(path: ':PowerSkiller')
+    implementation project(path: ':PrayerFlicker')
+    implementation project(path: ':PrayAgainstPlayer')
+    implementation project(path: ':RooftopAgility')
+    implementation project(path: ':RunEnabler')
+    implementation project(path: ':ShiftClickWalker')
+    implementation project(path: ':SixHourLog')
+    implementation project(path: ':SpeedDartMaker')
+    implementation project(path: ':SuperglassMake')
+    implementation project(path: ':UpkeepPlugin')
+    implementation project(path: ':VardorvisHelper')
+    implementation project(path: ':DropParty')
+    implementation 'io.reactivex.rxjava3:rxjava:3.1.6'
+
+//
+//    compileOnly project(path: ':RooftopAgility')
+//    testImplementation project(path: ':RooftopAgility')
+//    compileOnly project(path: ':ItemCombiner')
+//    testImplementation project(path: ':ItemCombiner')
+    compileOnly project(path: ':PowerSkiller')
+    testImplementation project(path: ':PowerSkiller')
+
+}
+
+sourceSets {
+
+    main {
+
+        java {
+            srcDir "src"
+        }
+
+    }
+}
+
+group = 'com.piggyplugins'
+version = '1.0.16'
+sourceCompatibility = "11"
+
+task FatJar(type: Jar) {
+    manifest {
+        attributes 'Main-Class': 'com.example.Main'
+    }
+    baseName = 'piggy-plugins-aio'
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
+task PiggyJar(type: Jar) {
+    manifest {
+    }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
+subprojects {
+    tasks.withType(Jar) {
+        doLast {
+            copy {
+                from("./build/libs/")
+                into("../release/")
+            }
+        }
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {
+        maven {
+            credentials {
+                username 'admin'
+                password 'password'
+            }
+            url "http://baseUrl/artifactory/libs-release-local"
+        }
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+targetCompatibility = JavaVersion.VERSION_11
